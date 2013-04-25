@@ -14,6 +14,7 @@ public class Fasta {
 				headers.add(line);
 			line = br.readLine();
 		}
+		br.close();
 		return (String[]) headers.toArray();
 	}
 	
@@ -28,13 +29,16 @@ public class Fasta {
 					sequences.add(sb.toString());
 				sb = new StringBuilder();
 			} else {
-				if (sb == null)
+				if (sb == null) {
+					br.close();
 					throw new IOException("Invalid fasta format");
+				}
 				sb.append(line);
 			}
 			line = br.readLine();
 		}
 		sequences.add(sb.toString());
+		br.close();
 		return sequences.toArray(new String[sequences.size()]);
 	}
 

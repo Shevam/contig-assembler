@@ -63,8 +63,8 @@ public class DeBruijnGraph {
 		System.out.println("removeTips 1");
 		removeTips();
 		
-//		System.out.println("makeContigs 1");
-//		makeContigs();
+		System.out.println("makeContigs 1");
+		makeContigs();
 		
 //		System.out.println("removeTips 2");
 //		removeTips();

@@ -162,6 +162,7 @@ public class Main {
 					fragments.add(line);
 					line = br.readLine();
 				}
+				br.close();
 			} catch (FileNotFoundException e) {
 				System.err.println("ERROR: file not found");
 				printUsage();
