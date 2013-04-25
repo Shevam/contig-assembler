@@ -7,7 +7,6 @@
 
 # LaTeX files #
 *.aux
-*.pdf
 *.backup
 
 
