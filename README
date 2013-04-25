@@ -1,0 +1,6 @@
+README
+
+contig-assembler project
+author: sdemane
+
+Contains two sub-programs: one to assemble contigs from fragments (assembler) and one to assemble super-contigs from contigs (super-contig).

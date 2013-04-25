@@ -1,4 +1,0 @@
-#!/bin/sh
-BINDIR=`dirname $0`
-export CLASSPATH=$($BINDIR/jars lib):derived/assembler.jar
-$JAVA_HOME/bin/java cs182.assembler.Main "$@"
