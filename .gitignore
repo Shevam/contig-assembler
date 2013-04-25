@@ -4,3 +4,13 @@
 *.jar
 *.war
 *.ear
+
+# LaTeX files #
+*.aux
+*.pdf
+*.backup
+
+
+# Log files #
+*.log
+*~
