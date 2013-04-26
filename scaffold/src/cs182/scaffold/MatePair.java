@@ -8,6 +8,8 @@ public class MatePair {
 	Sequence _seq2;
 	int _insertLength;
 	LinkedList<Alignment> _alignments;
+	Alignment _startAlign = null;
+	Alignment _endAlign = null;
 	
 	public MatePair(String s1, String s2, int l) {
 		_seq1 = new Sequence(s1);
@@ -20,6 +22,31 @@ public class MatePair {
 		_seq1 = s1;
 		_seq2 = s2;
 		_insertLength = l;
+	}
+	
+	public boolean isStraight() {
+		return _startAlign._isRevComp == _endAlign._isRevComp;
+	}
+	
+	public void reduceAlignments() {
+		if (_alignments.size() > 2) {
+			System.out.println("fill in reduceAlignments()");
+		} else if (_alignments.size() == 2) {
+			Alignment a = _alignments.poll();
+			if (a._isFirstRead) {
+				_startAlign = a;
+			} else {
+				_endAlign = a;
+			}
+			a = _alignments.poll();
+			if (a._isFirstRead && _startAlign == null) {
+				_startAlign = a;
+			} else if (!a._isFirstRead && _endAlign == null) {
+				_endAlign = a;
+			} else {
+				_startAlign = _endAlign = null;
+			}
+		}
 	}
 	
 	public MatePair getReverseComplement() {

@@ -5,6 +5,7 @@ import java.util.LinkedList;
 public class Contig extends Sequence implements Comparable<Contig> {
 	
 	int _relativeLocation = 0;
+	int _support = 0;
 	LinkedList<Alignment> _alignments;
 	
 	public Contig(String seq) {

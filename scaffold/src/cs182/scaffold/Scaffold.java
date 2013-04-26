@@ -1,6 +1,5 @@
 package cs182.scaffold;
 
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 
@@ -36,8 +35,9 @@ public class Scaffold {
 		}
 		
 		PriorityQueue<Contig> scaffold = new PriorityQueue<Contig>();
+		//scaffold.addAll(_contigs);
 		PriorityQueue<Contig> revScaffold = new PriorityQueue<Contig>();
-		HashSet<MatePair> usedPairs = new HashSet<MatePair>();
+//		HashSet<MatePair> conflictPairs = new HashSet<MatePair>();
 		
 		
 		
@@ -48,15 +48,82 @@ public class Scaffold {
 		LinkedList<MatePair> workingPairs = new LinkedList<MatePair>();
 		for (Alignment a : curContig._alignments)
 			workingPairs.add(a._pair);
+		curContig._support++;
 		scaffold.add(curContig);
 		
+		
+		//sorting the contigs into scaffold and revscaffold, based on whether the mate pair says it should be flipped or not. updating relative location as we go
 		while (!workingPairs.isEmpty()) {
 			curPair = workingPairs.poll();
-			for (Alignment a : curPair._alignments) { // look at each alignment to this contig
-				if ()
-				
+			curPair.reduceAlignments();
+			if (curPair._alignments.size() == 2) { // standard size
+				if (scaffold.contains(curPair._startAlign._contig)) {
+					curContig = curPair._endAlign._contig;
+					for (Alignment a : curContig._alignments)
+						workingPairs.add(a._pair);
+					_contigs.remove(curContig);
+					if (curPair.isStraight()) {
+						curContig._relativeLocation = curPair._startAlign._contig._relativeLocation + curPair._startAlign._startIndex + curPair._insertLength - curPair._endAlign._startIndex;
+						curContig._support++;
+						scaffold.add(curContig);
+					} else {
+						curContig._relativeLocation = curPair._startAlign._contig._relativeLocation + curPair._startAlign._startIndex + curPair._insertLength - curPair._endAlign._startIndex;
+						curContig._support++;
+						revScaffold.add(curContig);
+					}
+				} else if (scaffold.contains(curPair._endAlign._contig)) {
+					curContig = curPair._startAlign._contig;
+					for (Alignment a : curContig._alignments)
+						workingPairs.add(a._pair);
+					_contigs.remove(curContig);
+					if (curPair.isStraight()) {
+						curContig._relativeLocation = curPair._endAlign._contig._relativeLocation + curPair._endAlign._startIndex - curPair._insertLength + curPair._startAlign._startIndex;
+						curContig._support++;
+						scaffold.add(curContig);
+					} else {
+						curContig._relativeLocation = curPair._endAlign._contig._relativeLocation + curPair._endAlign._startIndex - curPair._insertLength + curPair._startAlign._startIndex;
+						curContig._support++;
+						revScaffold.add(curContig);
+					}
+				} else if (revScaffold.contains(curPair._startAlign._contig)) {
+					curContig = curPair._endAlign._contig;
+					for (Alignment a : curContig._alignments)
+						workingPairs.add(a._pair);
+					_contigs.remove(curContig);
+					if (curPair.isStraight()) {
+						curContig._relativeLocation = curPair._startAlign._contig._relativeLocation + curPair._startAlign._startIndex - curPair._insertLength + curPair._endAlign._startIndex;
+						curContig._support++;
+						revScaffold.add(curContig);
+					} else {
+						curContig._relativeLocation = curPair._startAlign._contig._relativeLocation + curPair._startAlign._startIndex - curPair._insertLength + curPair._endAlign._startIndex;
+						curContig._support++;
+						scaffold.add(curContig);
+					}
+				} else if (revScaffold.contains(curPair._endAlign._contig)) {
+					curContig = curPair._startAlign._contig;
+					for (Alignment a : curContig._alignments)
+						workingPairs.add(a._pair);
+					_contigs.remove(curContig);
+					if (curPair.isStraight()) {
+						curContig._relativeLocation = curPair._endAlign._contig._relativeLocation + curPair._endAlign._startIndex + curPair._insertLength - curPair._startAlign._startIndex;
+						curContig._support++;
+						revScaffold.add(curContig);
+					} else {
+						curContig._relativeLocation = curPair._endAlign._contig._relativeLocation + curPair._endAlign._startIndex + curPair._insertLength - curPair._startAlign._startIndex;
+						curContig._support++;
+						scaffold.add(curContig);
+					}
+				}
 			}
+			
 		}
+		
+		// TODO : debug the contig sorting. if that works I'm some sort of weird sleepdep genius
+		// TODO : error handling! point subs are fine, but never takes into account insert length errors or orientation errors.
+		// I was going to keep a paired read support tally and flush out the error PRs...I totally knew what I was doing. Maybe tomorrow morning.
+		// Yeah, I know my revScaffold is still in original orientation. That's to preserve the equals() and hashCode() functions till I'm all ready to build.
+		
+		
 	}
 	
 	
