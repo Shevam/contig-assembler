@@ -1,15 +1,15 @@
 package cs182.scaffold;
 
+import java.util.LinkedList;
+
 public class Contig extends Sequence implements Comparable<Contig> {
 	
 	int _relativeLocation = 0;
+	LinkedList<Alignment> _alignments;
 	
 	public Contig(String seq) {
 		super(seq);
-	}
-	
-	public void alignMatePair(MatePair mp) {
-		
+		_alignments = new LinkedList<Alignment>();
 	}
 	
 	@Override

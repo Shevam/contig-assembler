@@ -1,5 +1,6 @@
 package cs182.scaffold;
 
+
 public class Sequence {
 	
 	String _seq;
@@ -58,5 +59,21 @@ public class Sequence {
 		case 'G' : return 'C';
 		default : return ' ';
 		}
+	}
+	
+	
+	@Override
+	public boolean equals(Object o) {
+		boolean retval = false;
+		if (o instanceof Sequence) {
+			Sequence otherSequence = (Sequence) o;
+			retval = _seq.equals(otherSequence._seq);
+		}
+		return retval;
+	}
+	
+	@Override
+	public int hashCode() {
+		return _seq.hashCode();
 	}
 }

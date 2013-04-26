@@ -8,18 +8,22 @@ public class Alignment {
 	int _startIndex;
 	boolean _isFirstRead;
 	boolean _isRevComp;
+	Contig _contig;
+	MatePair _pair;
 	
-	public Alignment(int score, int startIndex, boolean isFirstRead, boolean isRevComp) {
+	public Alignment(Contig contig, MatePair pair, int score, int startIndex, boolean isFirstRead, boolean isRevComp) {
 		_score = score;
 		_startIndex = startIndex;
 		_isFirstRead = isFirstRead;
 		_isRevComp = isRevComp;
+		_contig = contig;
+		_pair = pair;
 	}
 	
 	
 	
 	
-	public static LinkedList<Alignment> createAlignment(Sequence contig, MatePair pair) {
+	public static void createAlignments(Contig contig, MatePair pair) {
 		LinkedList<Alignment> a = new LinkedList<Alignment>();
 		
 		// aligning start and end of forward-oriented mate pair to contig
@@ -36,19 +40,18 @@ public class Alignment {
 		int cutoff = 32;
 		
 		if (forwardStart.maxScore > cutoff)
-			a.add(new Alignment(forwardStart.maxScore, forwardStart.startIndex, true, true));
+			a.add(new Alignment(contig, pair, forwardStart.maxScore, forwardStart.startIndex, true, true));
 		
 		if (forwardEnd.maxScore > cutoff)
-			a.add(new Alignment(forwardEnd.maxScore, forwardEnd.startIndex, false, true));
+			a.add(new Alignment(contig, pair, forwardEnd.maxScore, forwardEnd.startIndex, false, true));
 		
 		if (reverseStart.maxScore > cutoff)
-			a.add(new Alignment(reverseStart.maxScore, reverseStart.startIndex, true, false));
+			a.add(new Alignment(contig, pair, reverseStart.maxScore, reverseStart.startIndex, true, false));
 		
 		if (reverseEnd.maxScore > cutoff)
-			a.add(new Alignment(reverseEnd.maxScore, reverseEnd.startIndex, false, false));
+			a.add(new Alignment(contig, pair, reverseEnd.maxScore, reverseEnd.startIndex, false, false));
 		
-		
-		
-		return a;
+		contig._alignments.addAll(a);
+		pair._alignments.addAll(a);
 	}
 }

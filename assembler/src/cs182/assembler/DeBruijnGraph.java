@@ -934,7 +934,7 @@ public class DeBruijnGraph {
 			boolean retval = false;
 			if (o instanceof Kmer) {
 				Kmer otherKmer = (Kmer) o;
-				retval = (this.getSeq() == otherKmer.getSeq());
+				retval = this.getSeq().equals(otherKmer.getSeq());
 			}
 			return retval;
 		}
@@ -1045,7 +1045,7 @@ public class DeBruijnGraph {
 			boolean retval = false;
 			if (o instanceof Read) {
 				Read otherRead = (Read) o;
-				retval = (this.toString() == otherRead.toString());
+				retval = this.toString().equals(otherRead.toString());
 			}
 			return retval;
 		}
