@@ -1,6 +1,7 @@
 package cs182.scaffold;
 
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 public class Scaffold {
 	
@@ -13,18 +14,20 @@ public class Scaffold {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
+	public void constructScaffold() {
+		
+		// aligning mate pairs with contigs
+		
+		
+		
+		
+		PriorityQueue<Sequence> _scaffold = new PriorityQueue<Sequence>();
+	}
 	
 	
 	public void addContig(String s) {
 		Sequence seq = new Sequence(s);
 		_contigs.add(seq);
-		_contigs.add(seq.getReverseComplement());
 	}
 	
 	public void addMatePair(String line) {
@@ -38,7 +41,6 @@ public class Scaffold {
 		try {
 			MatePair mp = new MatePair(split[0], split[2], Integer.parseInt(split[1]));
 			_matePairs.add(mp);
-			_matePairs.add(mp.getReverseComplement());
 		} catch (NumberFormatException e) {
 			System.err.println("Invalid mate pair input. Skipping.");
 			return;

@@ -48,6 +48,10 @@ public class ScaffoldMain {
 			printUsage();
 			return;
 		}
+		
+		s.constructScaffold();
+		
+		
 	}
 	
 	
