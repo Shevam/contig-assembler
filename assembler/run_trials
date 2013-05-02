@@ -10,7 +10,7 @@ my $basecall = "$basedir/bin/assembler";
 
 
 my $subdir = "$basedir/reduced_genome";
-if (0) {
+if (1) {
 	print "running reduced genome\n";
 	system("$basecall -a 12 -l 50 -e 0.01 --genome --seed 15 --output-contigs $subdir/contigs.txt --output-reads $subdir/reads.txt --debruijn-graph $subdir/graph.dot --contig-map $subdir/reads.png $subdir/SigmaKappaOmega9_genome_reduced.fasta");
 	system("dot $subdir/graph.dot -Tpng -o $subdir/graph.png");
@@ -23,7 +23,7 @@ if (1) {
 	system("$basecall -a 20 -l 2000 --reads --reverse-complement --output-contigs $subdir/contigs.txt $subdir/genome.txt.reads.20.txt");
 }
 
-if (0) {
+if (1) {
 	foreach my $coverage (@coverages) {
 		$subdir = "$basedir/full_genome_$coverage";
 		print "running reads with coverage $coverage\n";
